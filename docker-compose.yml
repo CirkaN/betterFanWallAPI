@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  php:
+    build:
+      context: .docker
+      dockerfile: php.dockerfile
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: betterFanWall
+      MYSQL_USER: default
+      MYSQL_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - 8089:80
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - mariadb
+
+  composer:
+    build:
+      context: .docker
+      dockerfile: composer.dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    entrypoint: ["composer", "--ignore-platform-reqs"]
+  npm:
+    image: node:14-alpine
+    container_name: betterfanwall-npm
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    entrypoint: [ "npm" ]
+    user: node
+  phpmyadmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - 8040:80
+
+volumes:
+  mysql-data:
