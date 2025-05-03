@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Company::class);
+            $table->foreignIdFor(Company::class)->nullable();
             $table->string('title')->index();
             $table->string('url')->index();
             $table->boolean('comments_disabled')->default(false);

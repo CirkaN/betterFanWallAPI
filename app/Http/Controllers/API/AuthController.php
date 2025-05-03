@@ -15,7 +15,7 @@ class AuthController extends Controller{
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -50,9 +50,7 @@ class AuthController extends Controller{
         if (!$user) {
             return response()->json(['error' => 'User creation failed'], 500);
         }
-        $token = auth('api')->login($user);  // Explicitly use the 'api' guard here
-
-        
+        $token = auth('api')->login($user);
 
         return response()->json([
             'user' => new MeResource($user),

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Video;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UpdateVideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -21,11 +21,10 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        info('we in');
         return [
-            'email' => ['required', 'email','unique:users'],
-            'password' => ['required', 'string'],
-            'name' => ['required'],
+            'title' => ['sometimes', 'string'],
+            'url' => ['sometimes', 'string'],
+            'comments_disabled' => ['sometimes', 'boolean'],
         ];
     }
 }
