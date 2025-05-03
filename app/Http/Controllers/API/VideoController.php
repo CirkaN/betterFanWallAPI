@@ -15,7 +15,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos =  Video::with('author')->get();
+        $videos =  Video::with('author')->orderBy('created_at','desc')->get();
         return VideoResource::collection($videos);
     }
 
