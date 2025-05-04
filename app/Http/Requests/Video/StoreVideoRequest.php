@@ -26,9 +26,9 @@ class StoreVideoRequest extends FormRequest
             'url' => ['required', 'string'],
             'comments_disabled' => ['sometimes', 'boolean'],
             'author_id' => ['required'],
+            'file'
         ];
     }
-
 
     protected function prepareForValidation()
     {

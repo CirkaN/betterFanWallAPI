@@ -21,6 +21,7 @@ class VideoResource extends JsonResource
             'url'=>$this->url,
             'author'=>$this->whenLoaded('author'),
             'created_human'=> Carbon::parse($this->created_at)->diffForHumans(),
+            'thumb_url'=>'htps',
         ];
     }
 }
